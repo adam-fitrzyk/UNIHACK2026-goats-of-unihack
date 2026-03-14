@@ -5,11 +5,11 @@ import "./App.css";
 import GroceryResultsGrid from "./components/Groceryresultsgrid"
 
 export default function App() {
-  const [query, setQuery] = useState("");
   //const [results, setResults] = useState(null);
   //const [loading, setLoading] = useState(false);
   //const [query, setQuery] = useState("")
   //const [results, setResults] = useState(null)
+
   const mockResults = {
     query: "milk",
     results: [
@@ -19,11 +19,12 @@ export default function App() {
       { name: "Full Cream Milk", store: "IGA",        price: 3.10, was: null, unit: "$1.55/L", sub: "2L", stock: "out", cat: "dairy" },
     ]
   }
-
+  const [query, setQuery] = useState("");
   const [results, setResults] = useState(mockResults)
-
   const [loading, setLoading] = useState(false)
+  
 
+  
   async function handleSearch(e) {
     e.preventDefault();
     if (!query.trim()) return;
@@ -38,16 +39,30 @@ export default function App() {
     }
   }
 
+  
   return (
     <div>
       <BrowserRouter>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/cart" element={<CartPage />} />
-        <Route path="/cards" element={<ComparePrices />} />
-      </Routes>
-    </BrowserRouter>
+        <Navbar />
+        <Routes>
+          {/* Pass all your search-related state here! */}
+          <Route 
+            path="/" 
+            element={
+              <HomePage 
+                query={query} 
+                setQuery={setQuery} 
+                handleSearch={handleSearch} 
+                results={results} 
+                loading={loading} 
+              />
+            } 
+          />
+          
+          <Route path="/cart" element={<CartPage />} />
+          <Route path="/cards" element={<ComparePrices />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
