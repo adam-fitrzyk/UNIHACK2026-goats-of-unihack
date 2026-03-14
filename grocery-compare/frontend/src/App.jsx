@@ -1,10 +1,8 @@
-
 import { useState } from "react";
 import { BrowserRouter, Routes, Route, Link } from "react-router-dom"; // Import it here
 import axios from "axios";
 import "./App.css";
 
-// 1. MAIN APP: The "Brain" (handles data/logic)
 export default function App() {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState(null);
@@ -30,62 +28,93 @@ export default function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/test" element={<TestPage />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/cards" element={<ComparePrices />} />
       </Routes>
     </BrowserRouter>
     </div>
   );
 }
 
-// 2. NAVBAR: The "Navigation" (handles the layout)
 function Navbar() {
   return (
     <nav className="navbar">
-      <div className="logo">GroCom</div>
-      <div className="nav-links">
-        <Link to="/">Home</Link>
-        <Link to="/test">Test</Link>
+      <div className="logo">
+        <Link to="/">GroCom</Link>
       </div>
-      <div className="cart-icon">🛒 Cart (0)</div>
+      
+      {/* Grouping links together */}
+      <div className="nav-links">
+        <Link to="/cards" style={{ marginRight: '20px' }}>Cards</Link>
+      </div>
+
+      <div className="cart-icon">
+        <Link to="/cart">🛒 Cart (0)</Link>
+      </div>
     </nav>
   );
 }
 
-// 3. HOMEPAGE: The "View" (handles inputs/results)
 function HomePage({ query, setQuery, handleSearch, results, loading }) {
   return (
-    <div style={{ maxWidth: 600, margin: "60px auto", fontFamily: "sans-serif", padding: "0 20px" }}>
-      <h1>🛒 Grocery Price Compare</h1>
-      <form onSubmit={handleSearch} style={{ display: "flex", gap: 8 }}>
-        <input
-          type="text"
-          value={query}
-          onChange={e => setQuery(e.target.value)}
-          placeholder="Search for a product e.g. milk"
-          style={{ flex: 1, padding: "10px 14px", fontSize: 16, borderRadius: 8, border: "1px solid #ccc" }}
-        />
-        <button
-          type="submit"
-          style={{ padding: "10px 20px", fontSize: 16, borderRadius: 8, background: "#2563eb", color: "white", border: "none", cursor: "pointer" }}
-        >
-          {loading ? "Searching..." : "Search"}
-        </button>
-      </form>
+    <div className="home-container">
+      <div className="hero-section">
+        <h1>🛒 Grocom</h1>
+        <p className="subtitle">Compare the cheapest groceries. Anytime. Anywhere.</p>
+        
+        <form onSubmit={handleSearch} className="search-form">
+          <input
+            type="text"
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+            placeholder="Search for a product e.g. milk"
+          />
+          <button type="submit" disabled={loading}>
+            {loading ? "Searching..." : "Search"}
+          </button>
+        </form>
+      </div>
 
       {results && (
-        <div style={{ marginTop: 32 }}>
+        <div className="results-section">
           <p>Results for: <strong>{results.query}</strong></p>
-          {results.results.length === 0
-            ? <p style={{ color: "#888" }}>No results yet — scrapers not built yet.</p>
-            : <pre>{JSON.stringify(results.results, null, 2)}</pre>
-          }
+          {/* Your results display logic here */}
         </div>
       )}
     </div>
   );
 }
 
-// 4. TESTPAGE
-function TestPage() {
-  return <div className="page-container"><h1>This is the Test Page</h1></div>;
+function CartPage() {
+  return <div className="page-container"><h1>This is the Cart Page</h1></div>;
+}
+
+function ComparePrices() {
+  return (
+    <main>
+      <div class="card-container">
+        <div class="product-card">
+          <div class="temp"></div>
+          <h2>Muscle Nation Protein Water Mango Passionfruit 300g</h2>
+          
+          <div class="price-grid">
+            <div class="store-info">
+              <span class="store-name coles">Coles</span>
+              <span class="price">$17.50</span>
+              <span class="unit-price">$5.83 / 100g</span>
+            </div>
+            <div class="store-info">
+              <span class="store-name woolies">Woolies</span>
+              <span class="price">$35.00</span>
+              <span class="unit-price">$11.67 / 100g</span>
+            </div>
+          </div>
+
+          <div class="discount-badge">-$17.50</div>
+          <button class="add-btn">Add to Cart</button>
+        </div>
+
+      </div>
+    </main>
+  );
 }
