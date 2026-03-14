@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react"
 import {
-  Box, Card, CardContent, Chip, Typography, TextField,
+  Button, Box, Card, CardContent, Chip, Typography, TextField,
   Slider, Select, MenuItem, FormControl, InputLabel, Grid, Paper
 } from "@mui/material"
 
@@ -122,6 +122,16 @@ function GroceryCard({ item, isBest }) {
             />
           )}
         </Box>
+
+        <Button 
+          variant="contained" 
+          size="small" 
+          fullWidth
+          className="add-to-cart-btn"
+          onClick={() => console.log("Added to cart:", item.name)}
+        >
+          Add to Cart
+        </Button>
 
         {/* Footer */}
         <Box

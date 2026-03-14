@@ -55,131 +55,66 @@
   margin-bottom: 30px;
 }
 
-.search-form {
+/* App.css */
+.search-container {
   display: flex;
-  background: #f4f4f4;
-  padding: 8px;
-  border-radius: 50px; /* The "pill" shape */
-  border: 2px solid #e0e0e0;
-  transition: border-color 0.3s;
+  background-color: #f3f4f6; /* Default gray background */
+  padding: 6px;
+  border: 2px solid #f3f4f6; /* Match border to bg initially so it doesn't jump */
+  border-radius: 50px;       
+  transition: border-color 0.2s ease; /* Smooth transition for the border only */
 }
 
-.search-form:focus-within {
-  border-color: #526a4b;
+/* When the user clicks into the input or button, the border turns olive */
+.search-container:focus-within {
+  border-color: #526a4b; 
 }
 
-.search-form input {
+.search-input {
   flex: 1;
-  padding: 12px 20px;
+  padding: 10px 20px;
   border: none;
-  background: transparent;
-  font-size: 16px;
   outline: none;
+  font-size: 16px;
+  background: transparent; /* Allows the container background to show through */
 }
 
-.search-form button {
-  padding: 12px 24px;
-  border-radius: 50px;
-  background-color: #526a4b;
-  color: white;
-  border: none;
+.search-button {
+  padding: 10px 24px;
+  font-size: 16px;
   font-weight: bold;
-  cursor: pointer;
-  transition: opacity 0.2s;
-}
-
-.search-form button:hover {
-  opacity: 0.9;
-}
-
-
-/* Card container */
-.card-container {
-  display: grid;
-  /* This creates 4 equal columns that share space automatically */
-  grid-template-columns: repeat(3, 1fr);
-  gap: 15px;
-  padding: 20px;
-}
-.product-card {
-  background: #ffffff;
-  border-radius: 24px;
-  padding: 20px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08); /* Soft, modern shadow */
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #f0f0f0;
-}
-
-.product-card:hover {
-  transform: translateY(-5px); /* Adds a "pop" effect on hover */
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
-}
-
-.temp {
-  width: 100%;
-  aspect-ratio: 1/1;
-  background-color: cyan;
-  border-radius: 16px; /* Rounded corners for the image area */
-  margin-bottom: 16px;
-}
-
-h2 {
-  font-size: 1.1rem;
-  line-height: 1.4;
-  margin-bottom: 20px;
-  color: #1a1a1a;
-  min-height: 3em; /* Ensures cards are same height if title is short */
-}
-
-.price-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr; 
-  gap: 12px;
-  margin-bottom: 20px;
-}
-
-.store-info {
-  background: #f9f9f9;
-  padding: 12px;
-  border-radius: 12px;
-  /* Ensures text aligns correctly in the equal boxes */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-.store-name { font-weight: 700; font-size: 0.8rem; text-transform: uppercase; }
-.coles { color: #e31d2b; }
-.woolies { color: #00843d; }
-.price { font-size: 1.25rem; font-weight: 800; display: block; margin: 4px 0; }
-.unit-price { font-size: 0.75rem; color: #888; }
-
-.discount-badge {
-  background-color: #fff3c4; /* Softer yellow */
-  color: #856404;
-  padding: 4px 12px;
-  font-size: 0.85rem;
-  font-weight: 700;
-  border-radius: 50px;
-  align-self: flex-start;
-  margin-bottom: 20px;
-}
-
-.add-btn {
-  margin-top: auto; /* Pushes button to bottom */
-  padding: 14px;
-  background-color: #526a4b; /* Your highlight color */
+  border-radius: 50px; 
+  background: #526a4b;
   color: white;
   border: none;
-  border-radius: 50px; /* Pill shape */
-  font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
 }
 
-.add-btn:hover { background-color: #3e513a; }
+.search-button:hover {
+  background: #3f523a;
+}
+
+
+
+
+.add-to-cart-btn {
+  /* Using 50px or higher ensures a pill shape regardless of button height */
+  border-radius: 50px !important; 
+  background-color: #526a4b !important;
+  color: white !important;
+  font-weight: bold !important;
+  text-transform: none !important;
+  margin-top: 8px !important;
+  padding: 8px 20px !important;
+  /* Optional: adds a smooth transition for hover effects */
+  transition: background-color 0.2s ease !important;
+}
+
+.add-to-cart-btn:hover {
+  background-color: #3f523a !important;
+}
+
 
 /* Shopping cart */
 
