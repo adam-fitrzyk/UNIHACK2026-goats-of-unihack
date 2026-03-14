@@ -7,9 +7,9 @@ import GroceryResultsGrid from "./components/Groceryresultsgrid"
 
 export default function App() {
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [query, setQuery] = useState("")
+  //const [results, setResults] = useState(null);
+  //const [loading, setLoading] = useState(false);
+  //const [query, setQuery] = useState("")
   //const [results, setResults] = useState(null)
   const mockResults = {
     query: "milk",
