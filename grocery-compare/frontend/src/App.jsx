@@ -76,7 +76,7 @@ function Navbar() {
       
       {/* Grouping links together */}
       <div className="nav-links">
-        <Link to="/cards" style={{ marginRight: '20px' }}>Cards</Link>
+        <Link to="/cards" style={{ marginRight: '20px' }}>** Cards</Link>
       </div>
 
       <div className="cart-icon">
@@ -117,7 +117,85 @@ function HomePage({ query, setQuery, handleSearch, results, loading }) {
 }
 
 function CartPage() {
-  return <div className="page-container"><h1>This is the Cart Page</h1></div>;
+  return (
+    <div class="cart-page">
+      <h1>Your Shopping Cart</h1>
+
+      <div class="cart-layout">
+        <div class="cart-items">
+          <div class="cart-item">
+            <div class="temp"></div>
+            <div class="item-main">
+              <h3>Tomatoes Gourmet approx. 130g</h3>
+              <div class="quantity-controls">
+                <button>-</button> <span>1</span> <button>+</button>
+              </div>
+            </div>
+            <div class="price-side">
+              <div class="price-box winner">
+                <span class="store-label">Coles</span>
+                <span class="main-price">$0.90</span>
+              </div>
+              <div class="price-box loser">
+                <span class="store-label">Woolworths</span>
+                <span class="sub-price">$3.30</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="cart-item">
+            <div class="temp"></div>
+            <div class="item-main">
+              <h3>Tomatoes Gourmet approx. 130g</h3>
+              <div class="quantity-controls">
+                <button>-</button> <span>1</span> <button>+</button>
+              </div>
+            </div>
+            <div class="price-side">
+              <div class="price-box winner">
+                <span class="store-label">Coles</span>
+                <span class="main-price">$0.90</span>
+              </div>
+              <div class="price-box loser">
+                <span class="store-label">Woolworths</span>
+                <span class="sub-price">$3.30</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="cart-item">
+            <div class="temp"></div>
+            <div class="item-main">
+              <h3>Tomatoes Gourmet approx. 130g</h3>
+              <div class="quantity-controls">
+                <button>-</button> <span>1</span> <button>+</button>
+              </div>
+            </div>
+            <div class="price-side">
+              <div class="price-box loser">
+                <span class="store-label">Coles</span>
+                <span class="main-price">$10000.90</span>
+              </div>
+              <div class="price-box winner">
+                <span class="store-label">Woolworths</span>
+                <span class="sub-price">$3.30</span>
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+
+        <div class="cart-summary">
+          <h3>Order Summary</h3>
+          <div class="summary-line"><span>Total Price:</span> <strong>$15.50</strong></div>
+          <div class="summary-line savings"><span>Total Savings:</span> <strong>$11.70</strong></div>
+          <button class="checkout-btn">Checkout (Open Links)</button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 function ComparePrices() {
