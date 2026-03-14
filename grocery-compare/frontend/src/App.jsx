@@ -13,10 +13,10 @@ export default function App() {
   const mockResults = {
     query: "milk",
     results: [
-      { name: "Full Cream Milk", store: "Woolworths", price: 2.40, was: 3.20, unit: "$1.20/L", sub: "2L", stock: "in", cat: "dairy" },
-      { name: "Full Cream Milk", store: "Coles",      price: 2.50, was: null, unit: "$1.25/L", sub: "2L", stock: "in", cat: "dairy" },
-      { name: "Full Cream Milk", store: "Aldi",       price: 1.99, was: null, unit: "$0.99/L", sub: "2L", stock: "low", cat: "dairy" },
-      { name: "Full Cream Milk", store: "IGA",        price: 3.10, was: null, unit: "$1.55/L", sub: "2L", stock: "out", cat: "dairy" },
+      { name: "Full Cream Milk", store: "Woolworths", price: 2.40, was: 3.20, unit: "$1.20/L", sub: "2L", stock: "in", cat: "dairy", url: "https://www.woolworths.com.au/shop/productdetails/888137/woolworths-full-cream-milk" },
+      { name: "Full Cream Milk", store: "Coles",      price: 2.50, was: null, unit: "$1.25/L", sub: "2L", stock: "in", cat: "dairy" , url: "https://www.coles.com.au/product/coles-full-cream-milk-2l-439693"},
+      { name: "Full Cream Milk", store: "Aldi",       price: 1.99, was: null, unit: "$0.99/L", sub: "2L", stock: "low", cat: "dairy", url: "https://www.aldi.com.au/product/farmdale-full-cream-milk-2l-000000000000398689"},
+      { name: "Full Cream Milk", store: "IGA",        price: 3.10, was: null, unit: "$1.55/L", sub: "2L", stock: "out", cat: "dairy" , url: "https://www.igashop.com.au/product/pauls-zymil-full-cream-milk-88804"},
     ]
   }
   const [query, setQuery] = useState("");
