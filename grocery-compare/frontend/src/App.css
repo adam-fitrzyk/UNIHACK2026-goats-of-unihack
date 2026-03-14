@@ -180,3 +180,94 @@ h2 {
 }
 
 .add-btn:hover { background-color: #3e513a; }
+
+/* Shopping cart */
+
+.cart-page { max-width: 900px; margin: 40px auto; padding: 20px; font-family: sans-serif; }
+
+.cart-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 30px; }
+
+/* The horizontal items */
+
+.temp { width: 80px; height: 80px; background: cyan; border-radius: 12px; flex-shrink: 0; }
+
+.savings-text { color: #526a4b; font-weight: bold; font-size: 0.9rem; }
+
+/* Summary Sidebar */
+.cart-summary { 
+  background: #f9f9f9; padding: 25px; border-radius: 24px; 
+  height: fit-content; border: 1px solid #eee;
+}
+
+.summary-line { display: flex; justify-content: space-between; margin-bottom: 15px; }
+
+.savings { color: #526a4b; font-weight: bold; }
+
+.checkout-btn {
+  width: 100%; padding: 15px; background: #526a4b; color: white;
+  border: none; border-radius: 50px; font-weight: bold; cursor: pointer;
+  transition: background 0.2s;
+}
+
+.checkout-btn:hover { background: #3e513a; }
+
+/* Responsive: stack on mobile */
+@media (max-width: 768px) {
+  .cart-layout { grid-template-columns: 1fr; }
+}
+
+.cart-item {
+  display: grid;
+  grid-template-columns: 80px 1fr auto;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  background: white;
+  border-radius: 20px;
+  border: 1px solid #eee;
+  margin-bottom: 15px;
+}
+
+.price-comparison { display: flex; gap: 10px; }
+
+.price-box {
+  padding: 10px 15px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  min-width: 80px;
+}
+
+/* The Winner Style */
+.winner {
+  border: 2px solid #526a4b;
+  background: #f1f5f0;
+}
+.winner .price { color: #526a4b; font-weight: 800; }
+
+/* The Loser Style */
+.loser {
+  background: #f9f9f9;
+  opacity: 0.7; /* Fades the losing price slightly */
+}
+.loser .price { color: #666; font-size: 0.9rem; }
+
+/* Quantity Buttons */
+.quantity-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #f4f4f4;
+  padding: 5px 10px;
+  border-radius: 50px;
+  width: fit-content;
+}
+
+.quantity-controls button {
+  border: none;
+  background: white;
+  border-radius: 50%;
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
