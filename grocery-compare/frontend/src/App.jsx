@@ -1,9 +1,22 @@
 import { useState } from "react"
 import axios from "axios"
+import GroceryResultsGrid from "./components/Groceryresultsgrid"
 
 export default function App() {
   const [query, setQuery] = useState("")
-  const [results, setResults] = useState(null)
+  //const [results, setResults] = useState(null)
+  const mockResults = {
+    query: "milk",
+    results: [
+      { name: "Full Cream Milk", store: "Woolworths", price: 2.40, was: 3.20, unit: "$1.20/L", sub: "2L", stock: "in", cat: "dairy" },
+      { name: "Full Cream Milk", store: "Coles",      price: 2.50, was: null, unit: "$1.25/L", sub: "2L", stock: "in", cat: "dairy" },
+      { name: "Full Cream Milk", store: "Aldi",       price: 1.99, was: null, unit: "$0.99/L", sub: "2L", stock: "low", cat: "dairy" },
+      { name: "Full Cream Milk", store: "IGA",        price: 3.10, was: null, unit: "$1.55/L", sub: "2L", stock: "out", cat: "dairy" },
+    ]
+  }
+
+  const [results, setResults] = useState(mockResults)
+
   const [loading, setLoading] = useState(false)
 
   async function handleSearch(e) {
@@ -39,13 +52,10 @@ export default function App() {
         </button>
       </form>
 
+
       {results && (
-        <div style={{ marginTop: 32 }}>
-          <p>Results for: <strong>{results.query}</strong></p>
-          {results.results.length === 0
-            ? <p style={{ color: "#888" }}>No results yet — scrapers not built yet.</p>
-            : <pre>{JSON.stringify(results.results, null, 2)}</pre>
-          }
+        <div>
+          <GroceryResultsGrid results={results.results} query={results.query} />
         </div>
       )}
     </div>
