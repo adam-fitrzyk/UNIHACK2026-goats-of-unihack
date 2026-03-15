@@ -40,7 +40,7 @@ Make sure you have the following installed:
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/grocery-compare.git
+git clone https://github.com/adam-fitrzyk/UNIHACK2026-goats-of-unihack
 cd grocery-compare
 ```
 
@@ -105,7 +105,7 @@ git pull
 ### Getting access
 
 You'll need to be added as a collaborator to push changes. Ask the repo owner to add you at:
-**github.com/YOUR_USERNAME/grocery-compare/settings/collaborators**
+**https://github.com/adam-fitrzyk/UNIHACK2026-goats-of-unihack/settings/collaborators**
 
 ---
 
