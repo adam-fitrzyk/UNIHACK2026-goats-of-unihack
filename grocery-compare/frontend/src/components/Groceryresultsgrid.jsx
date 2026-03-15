@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react"
 import {
-  Button, Box, Card, CardContent, Chip, Typography, TextField,
-  Slider, Select, MenuItem, FormControl, InputLabel, Grid, Paper
+  Button, Box, Card, CardContent, Chip, Typography,
+  Grid, Paper
 } from "@mui/material"
 
 // ─── Helpers ─────────────────────────────────────────────────────────────────
@@ -28,49 +28,6 @@ function bestPriceMap(results = []) {
     if (map[name] === undefined || price < map[name]) map[name] = price
     return map
   }, {})
-}
-
-// ─── Cart Bar ─────────────────────────────────────────────────────────────────
-
-function CartBar({ cartUrls, onCheckout, onClear }) {
-  if (cartUrls.length === 0) return null
-  return (
-    <Box sx={{
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-      flexWrap: "wrap",
-      gap: 1.5,
-      bgcolor: "#f0fdf4",
-      border: "1px solid #bbf7d0",
-      borderRadius: 3,
-      px: 2,
-      py: 1.5,
-      mb: 2.5,
-    }}>
-      <Typography fontSize={14} fontWeight={600} color="#166534">
-        🛒 {cartUrls.length} item{cartUrls.length !== 1 ? "s" : ""} in cart
-      </Typography>
-      <Box display="flex" gap={1}>
-        <Button
-          size="small"
-          variant="outlined"
-          onClick={onClear}
-          sx={{ fontSize: 13, borderColor: "#e5e7eb", color: "#6b7280" }}
-        >
-          Clear
-        </Button>
-        <Button
-          size="small"
-          variant="contained"
-          onClick={onCheckout}
-          sx={{ fontSize: 13, fontWeight: 600, bgcolor: "#16a34a", "&:hover": { bgcolor: "#15803d" } }}
-        >
-          Checkout →
-        </Button>
-      </Box>
-    </Box>
-  )
 }
 
 // ─── Summary Bar ─────────────────────────────────────────────────────────────
@@ -104,8 +61,8 @@ function SummaryBar({ visible, total, results }) {
 // ─── Single Card ─────────────────────────────────────────────────────────────
 
 function GroceryCard({ item, isBest, inCart, onToggleCart }) {
-  const sc  = storeColor(item.store)
-  const stk = STOCK[item.stock ?? "in"] ?? STOCK.in
+  const sc   = storeColor(item.store)
+  const stk  = STOCK[item.stock ?? "in"] ?? STOCK.in
   const saving = item.was ? (item.was - item.price).toFixed(2) : null
 
   return (
@@ -166,13 +123,13 @@ function GroceryCard({ item, isBest, inCart, onToggleCart }) {
           )}
         </Box>
 
-        {/* Add to cart — wired to cart state */}
+        {/* Add to cart */}
         <Button
           variant={inCart ? "contained" : "outlined"}
           size="small"
           fullWidth
           disabled={!item.url}
-          onClick={() => onToggleCart(item.url)}
+          onClick={() => onToggleCart(item)}
           sx={{
             fontSize: 13,
             fontWeight: 600,
@@ -211,13 +168,13 @@ function GroceryCard({ item, isBest, inCart, onToggleCart }) {
 
 // ─── Main export ──────────────────────────────────────────────────────────────
 
-export default function GroceryResultsGrid({ results = [], query = "" }) {
-  const [search,   setSearch]   = useState("")
-  const [count,    setCount]    = useState(6)
-  const [sort,     setSort]     = useState("price-asc")
-  const [cartUrls, setCartUrls] = useState([])
+export default function GroceryResultsGrid({ results = [], query = "", cartItems = [], onToggleCart }) {
+  const [search, setSearch] = useState("")
+  const [count,  setCount]  = useState(6)
+  const [sort,   setSort]   = useState("price-asc")
 
-  const best = useMemo(() => bestPriceMap(results), [results])
+  const best     = useMemo(() => bestPriceMap(results), [results])
+  const cartUrls = cartItems.map(i => i.url)
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase()
@@ -236,66 +193,10 @@ export default function GroceryResultsGrid({ results = [], query = "" }) {
 
   const visible = filtered.slice(0, count)
 
-  function handleToggleCart(url) {
-    if (!url) return
-    setCartUrls(prev =>
-      prev.includes(url) ? prev.filter(u => u !== url) : [...prev, url]
-    )
-  }
-
-  function handleCheckout() {
-  cartUrls.forEach((url, i) => {
-    setTimeout(() => window.open(url, "_blank"), i * 500)
-  })
-}
-
-  function handleClear() {
-    setCartUrls([])
-  }
-
   if (!results.length) return null
 
   return (
     <Box sx={{ mt: 3.5 }}>
-
-      {/* Cart bar — appears when items are added */}
-      <CartBar cartUrls={cartUrls} onCheckout={handleCheckout} onClear={handleClear} />
-
-      {/* Toolbar */}
-      <Box display="flex" gap={1.5} flexWrap="wrap" alignItems="center" sx={{ mb: 2 }}>
-        {/*<TextField
-          size="small"
-          placeholder="Filter results…"
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-          sx={{ flex: 1, minWidth: 140 }}
-        />
-
-        <Box display="flex" alignItems="center" gap={1} sx={{ minWidth: 160 }}>
-          <Typography variant="caption" color="text.secondary" whiteSpace="nowrap">
-            Show {count}
-          </Typography>
-          <Slider
-            size="small"
-            min={1}
-            max={Math.max(results.length, 1)}
-            value={count}
-            onChange={(_, v) => setCount(v)}
-            sx={{ width: 80 }}
-          />
-        </Box>
-
-        <FormControl size="small" sx={{ minWidth: 160 }}>
-          <InputLabel>Sort by</InputLabel>
-          <Select value={sort} label="Sort by" onChange={e => setSort(e.target.value)}>
-            <MenuItem value="price-asc">Price: low–high</MenuItem>
-            <MenuItem value="price-desc">Price: high–low</MenuItem>
-            <MenuItem value="savings">Best savings</MenuItem>
-            <MenuItem value="name">Name A–Z</MenuItem>
-          </Select>
-        </FormControl>*/}
-      </Box>
-
       {/* Summary */}
       <SummaryBar visible={visible.length} total={filtered.length} results={filtered} />
 
@@ -312,13 +213,12 @@ export default function GroceryResultsGrid({ results = [], query = "" }) {
                 item={item}
                 isBest={item.price === best[item.name]}
                 inCart={cartUrls.includes(item.url)}
-                onToggleCart={handleToggleCart}
+                onToggleCart={onToggleCart}
               />
             </Grid>
           ))}
         </Grid>
       )}
-
     </Box>
   )
 }

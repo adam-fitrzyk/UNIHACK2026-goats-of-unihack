@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d dist"
+    "deploy": "npm run build && touch dist/.nojekyll && cd dist && git init && git add . && git commit -m 'deploy' && git push -f https://github.com/adam-fitrzyk/UNIHACK2026-goats-of-unihack gh-pages"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
