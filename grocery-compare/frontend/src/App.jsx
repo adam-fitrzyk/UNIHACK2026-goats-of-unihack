@@ -43,10 +43,14 @@ export default function App() {
     }
   }
 
-  
+  // Calculate the basename based on the environment
+  const basename = import.meta.env.MODE === 'production' 
+  ? '/UNIHACK2026-goats-of-unihack' 
+  : '';
+
   return (
     <div>
-      <BrowserRouter>
+      <BrowserRouter basename={basename}>
         <Navbar />
         <Routes>
           {/* Pass all your search-related state here! */}
