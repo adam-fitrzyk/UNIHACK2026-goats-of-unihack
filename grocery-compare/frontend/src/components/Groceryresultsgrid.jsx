@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react"
+import { useState, useMemo, useEffect } from "react"
 import {
   Button, Box, Card, CardContent, Chip, Typography,
   Grid, Paper
@@ -32,13 +32,13 @@ function bestPriceMap(results = []) {
 
 // ─── Summary Bar ─────────────────────────────────────────────────────────────
 
-function SummaryBar({ visible, total, results }) {
+function SummaryBar({ start, end, total, results }) {
   const avg     = results.length ? (results.reduce((s, p) => s + p.price, 0) / results.length).toFixed(2) : null
   const onSale  = results.filter(p => p.was).length
   const maxSave = results.reduce((s, p) => p.was ? Math.max(s, p.was - p.price) : s, 0)
 
   const stats = [
-    { label: "Showing",    value: `${visible} of ${total}` },
+    { label: "Showing",    value: `${start}–${end} of ${total}` },
     { label: "Avg price",  value: avg ? `$${avg}` : "—" },
     { label: "On sale",    value: onSale },
     { label: "Max saving", value: maxSave > 0 ? `$${maxSave.toFixed(2)}` : "—" },
@@ -168,57 +168,86 @@ function GroceryCard({ item, isBest, inCart, onToggleCart }) {
 
 // ─── Main export ──────────────────────────────────────────────────────────────
 
+const PAGE_SIZE = 20
+
 export default function GroceryResultsGrid({ results = [], query = "", cartItems = [], onToggleCart }) {
-  const [search, setSearch] = useState("")
-  const [count,  setCount]  = useState(6)
-  const [sort,   setSort]   = useState("price-asc")
+  const [sort,    setSort]    = useState("default")
+  const [page,    setPage]    = useState(0)
 
   const best     = useMemo(() => bestPriceMap(results), [results])
   const cartUrls = cartItems.map(i => i.url)
 
   const filtered = useMemo(() => {
-    const q = search.toLowerCase()
-    let items = results.filter(p =>
-      !q ||
-      (p.name  ?? "").toLowerCase().includes(q) ||
-      (p.store ?? "").toLowerCase().includes(q) ||
-      (p.cat   ?? "").toLowerCase().includes(q)
-    )
-    if (sort === "price-asc")  items = [...items].sort((a, b) => a.price - b.price)
-    if (sort === "price-desc") items = [...items].sort((a, b) => b.price - a.price)
-    if (sort === "savings")    items = [...items].sort((a, b) => (b.was ? b.was - b.price : 0) - (a.was ? a.was - a.price : 0))
-    if (sort === "name")       items = [...items].sort((a, b) => a.name.localeCompare(b.name))
+    let items = [...results]
+    if (sort === "price-asc")  items.sort((a, b) => a.price - b.price)
+    if (sort === "price-desc") items.sort((a, b) => b.price - a.price)
+    if (sort === "savings")    items.sort((a, b) => (b.was ? b.was - b.price : 0) - (a.was ? a.was - a.price : 0))
+    if (sort === "name")       items.sort((a, b) => a.name.localeCompare(b.name))
     return items
-  }, [results, search, sort])
+  }, [results, sort])
 
-  const visible = filtered.slice(0, count)
+  // Reset to page 0 when results or sort changes
+  useEffect(() => {
+  setPage(0)
+}, [results, sort])
+
+  const totalPages = Math.ceil(filtered.length / PAGE_SIZE)
+  const start      = page * PAGE_SIZE
+  const end        = Math.min(start + PAGE_SIZE, filtered.length)
+  const visible    = filtered.slice(start, end)
 
   if (!results.length) return null
 
   return (
     <Box sx={{ mt: 3.5 }}>
+
       {/* Summary */}
-      <SummaryBar visible={visible.length} total={filtered.length} results={filtered} />
+      <SummaryBar
+        start={start + 1}
+        end={end}
+        total={filtered.length}
+        results={filtered}
+      />
 
       {/* Grid */}
-      {visible.length === 0 ? (
-        <Typography color="text.secondary" textAlign="center" sx={{ py: 4 }}>
-          No results match your filter.
-        </Typography>
-      ) : (
-        <Grid container spacing={1.5}>
-          {visible.map((item, i) => (
-            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={`${item.store}-${item.name}-${i}`}>
-              <GroceryCard
-                item={item}
-                isBest={item.price === best[item.name]}
-                inCart={cartUrls.includes(item.url)}
-                onToggleCart={onToggleCart}
-              />
-            </Grid>
-          ))}
-        </Grid>
+      <Grid container spacing={1.5}>
+        {visible.map((item, i) => (
+          <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={`${item.store}-${item.name}-${i}`}>
+            <GroceryCard
+              item={item}
+              isBest={item.price === best[item.name]}
+              inCart={cartUrls.includes(item.url)}
+              onToggleCart={onToggleCart}
+            />
+          </Grid>
+        ))}
+      </Grid>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ mt: 2.5 }}>
+          <Button
+            variant="outlined"
+            size="small"
+            disabled={page === 0}
+            onClick={() => setPage(p => p - 1)}
+          >
+            ← Previous
+          </Button>
+          <Typography variant="caption" color="text.secondary">
+            Page {page + 1} of {totalPages}
+          </Typography>
+          <Button
+            variant="outlined"
+            size="small"
+            disabled={page >= totalPages - 1}
+            onClick={() => setPage(p => p + 1)}
+          >
+            Show next {Math.min(PAGE_SIZE, filtered.length - end)} →
+          </Button>
+        </Box>
       )}
+
     </Box>
   )
 }

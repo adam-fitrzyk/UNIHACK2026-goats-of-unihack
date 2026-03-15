@@ -43,19 +43,22 @@ export default function App() {
     setCartItems([]);
   }
 
-  async function handleSearch(e) {
-    e.preventDefault();
-    if (!query.trim()) return;
-    setLoading(true);
-    try {
-      const res = await api.get(`/search/${encodeURIComponent(query)}`);
-      setResults(res.data);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
+async function handleSearch(e) {
+  e.preventDefault();
+  if (!query.trim()) return;
+  setLoading(true);
+  try {
+    const res = await api.get(`/search/${encodeURIComponent(query)}`);
+    setResults({
+      query,
+      results: res.data  // ← pass directly, no mapping needed
+    });
+  } catch (err) {
+    console.error(err);
+  } finally {
+    setLoading(false);
   }
+}
 
   const basename = import.meta.env.MODE === "production"
     ? "/UNIHACK2026-goats-of-unihack"
