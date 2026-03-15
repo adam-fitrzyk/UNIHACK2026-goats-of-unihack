@@ -9,7 +9,11 @@ export default function App() {
   //const [loading, setLoading] = useState(false);
   //const [query, setQuery] = useState("")
   //const [results, setResults] = useState(null)
-
+  
+  const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
+  });
+  
   const mockResults = {
     query: "milk",
     results: [

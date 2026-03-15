@@ -1,9 +1,10 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-import path from "path"
 
-export default defineConfig({
+export default defineConfig(({ command }) => ({
   plugins: [react()],
+  // Only apply the base path if we are building for production
+  base: command === 'build' ? '/UNIHACK2026-goats-of-unihack/' : '/',
   resolve: {
     dedupe: ["react", "react-dom"],
   },
@@ -15,4 +16,4 @@ export default defineConfig({
       }
     }
   }
-})
+}))
